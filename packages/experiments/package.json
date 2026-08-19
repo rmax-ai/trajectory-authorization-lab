@@ -4,13 +4,19 @@
   "private": true,
   "type": "module",
   "description": "runner CLI, metrics, report",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "experiment": "tsx src/cli.ts"
   },
   "dependencies": {
-    "zod": "^3.25.0",
-    "tsx": "^4.19.0"
+    "@tacl/authorization": "workspace:*",
+    "@tacl/core": "workspace:*",
+    "@tacl/scenarios": "workspace:*",
+    "tsx": "^4.19.0",
+    "zod": "^3.25.0"
   }
 }

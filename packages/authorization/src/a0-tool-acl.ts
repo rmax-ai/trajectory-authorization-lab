@@ -14,7 +14,7 @@ export interface AclConfig {
   allow: Record<string, string[]>;
 }
 
-/** Defaults: a support agent holding the full toolset (scenarios 1–4). */
+/** Defaults: the ladder's principal population (scenarios 1–6). */
 export const DEFAULT_ACL: AclConfig = {
   allow: {
     "support-agent": [
@@ -25,6 +25,11 @@ export const DEFAULT_ACL: AclConfig = {
       "slack.external_post",
       "python.exec",
     ],
+    // Scenario 5: generic executor only — no slack.external_post.
+    "automation-agent": ["python.exec"],
+    // Scenario 6: root holds repo access; delete present in ACL but
+    // absent from capabilities — A5's authority-widening rejection.
+    "root-agent": ["repo.read", "repo.delete"],
   },
 };
 
