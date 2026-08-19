@@ -9,3 +9,5 @@ export type { A2Config } from "./a2-task";
 export { createA3Policy } from "./a3-trajectory";
 export type { A3Config } from "./a3-trajectory";
 export { createA4Policy } from "./a4-ifc";
+export { createA5Policy, DEFAULT_A5, DEFAULT_CAPABILITIES } from "./a5-capabilities";
+export type { A5Config } from "./a5-capabilities";

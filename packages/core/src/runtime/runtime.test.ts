@@ -40,6 +40,7 @@ function makeCfg(id = "run-1", overrides: Partial<RunConfig> = {}): RunConfig {
     policyId: "test-policy",
     principal,
     task,
+    capabilities: [],
     seed: 42,
     artifactsDir: join(dir, id),
     fixturesDir: FIXTURES_DIR,
@@ -193,6 +194,52 @@ describe("task contract immutability (SPEC §8 A2)", () => {
     // (TaskCreatedEvent carried the frozen task)
     expect(Object.isFrozen((rt.trajectory[0]!.data as { task: object }).task)).toBe(true);
     void ctxSeen;
+  });
+});
+
+describe("capability attenuation (SPEC §8 A5, scenario 6)", () => {
+  it("runtime emits the initial capability set at run start", () => {
+    const cfg = makeCfg("run-1", {
+      capabilities: [{ action: "repo.read", constraints: {} }],
+    });
+    const rt = new Runtime(cfg, allowPolicy(), fixedClock);
+    const capEvents = rt.trajectory.filter((e) => e.type === "CapabilityChangedEvent");
+    expect(capEvents).toHaveLength(1);
+    expect(capEvents[0]!.data.capabilities).toEqual([{ action: "repo.read", constraints: {} }]);
+  });
+
+  it("accepts narrowing delegations (child amount.max < parent)", () => {
+    const cfg = makeCfg("run-1", {
+      capabilities: [{ action: "billing.refund", constraints: { "amount.max": 500 } }],
+    });
+    const rt = new Runtime(cfg, allowPolicy(), fixedClock);
+    rt.attenuateCapabilities([
+      { action: "billing.refund", constraints: { "amount.max": 100, customer: "customer-123" } },
+    ]);
+    const last = rt.trajectory.filter((e) => e.type === "CapabilityChangedEvent").at(-1)!;
+    expect(last.data.capabilities).toEqual([
+      { action: "billing.refund", constraints: { "amount.max": 100, customer: "customer-123" } },
+    ]);
+  });
+
+  it("rejects widening: repo.delete after repo.read (scenario 6)", () => {
+    const cfg = makeCfg("run-1", {
+      capabilities: [{ action: "repo.read", constraints: {} }],
+    });
+    const rt = new Runtime(cfg, allowPolicy(), fixedClock);
+    expect(() => rt.attenuateCapabilities([{ action: "repo.delete", constraints: {} }])).toThrow(
+      /widening rejected/,
+    );
+  });
+
+  it("rejects a child that unbinds parent constraints", () => {
+    const cfg = makeCfg("run-1", {
+      capabilities: [{ action: "billing.refund", constraints: { "amount.max": 500 } }],
+    });
+    const rt = new Runtime(cfg, allowPolicy(), fixedClock);
+    expect(() =>
+      rt.attenuateCapabilities([{ action: "billing.refund", constraints: { "amount.max": 1000 } }]),
+    ).toThrow(/widening rejected/);
   });
 });
 

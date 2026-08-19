@@ -120,8 +120,12 @@ describe("registry", () => {
     expect(createPolicy("a1").id).toBe("a1-abac");
   });
 
-  it("fails loudly for not-yet-implemented rungs", () => {
-    expect(() => createPolicy("a5")).toThrow(/not implemented/);
+  it("instantiates the complete A0–A5 ladder", () => {
+    const ids = ["a0", "a1", "a2", "a3", "a4", "a5"] as const;
+    for (const id of ids) {
+      expect(() => createPolicy(id)).not.toThrow();
+    }
+    expect(createPolicy("a5").id).toBe("a5-capabilities");
   });
 
   it("is pure: repeated authorizations give identical decisions", () => {

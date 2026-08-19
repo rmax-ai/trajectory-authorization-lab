@@ -8,6 +8,7 @@ import { crmReadTool } from "./crm";
 import { billingReadTool, billingRefundTool } from "./billing";
 import { slackExternalPostTool, slackInternalPostTool } from "./slack";
 import { pythonExecTool } from "./python-exec";
+import { repoDeleteTool, repoReadTool } from "./repo";
 
 const toolRegistry = new Map<string, Tool>([
   ["crm.read", crmReadTool],
@@ -16,6 +17,8 @@ const toolRegistry = new Map<string, Tool>([
   ["slack.internal_post", slackInternalPostTool],
   ["slack.external_post", slackExternalPostTool],
   ["python.exec", pythonExecTool],
+  ["repo.read", repoReadTool],
+  ["repo.delete", repoDeleteTool],
 ]);
 
 export function getTool(name: string): Tool | undefined {

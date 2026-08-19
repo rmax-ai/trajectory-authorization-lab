@@ -30,12 +30,14 @@ afterEach(() => {
 });
 
 describe("registry (structural invariant)", () => {
-  it("registers exactly the six SPEC §5 tools", () => {
+  it("registers exactly the eight simulated tools (SPEC §5 + scenario 6)", () => {
     expect([...toolNames()].sort()).toEqual([
       "billing.read",
       "billing.refund",
       "crm.read",
       "python.exec",
+      "repo.delete",
+      "repo.read",
       "slack.external_post",
       "slack.internal_post",
     ]);

@@ -15,6 +15,7 @@ import { join } from "node:path";
 import {
   type AgentEvent,
   type AuthorizationPolicy,
+  type Capability,
   type PolicyDecision,
   type Principal,
   type TaskContract,
@@ -26,6 +27,7 @@ import type { ToolEnv, ToolResult } from "../tools/types";
 import { buildAuthorizationContext } from "./context";
 import { joinLabels, PUBLIC_TRUSTED } from "./lattice";
 import { projectState } from "./state-projection";
+import { constraintsNarrow } from "./capabilities";
 import { RunArtifacts } from "./artifacts";
 
 export interface RunConfig {
@@ -34,6 +36,8 @@ export interface RunConfig {
   policyId: string;
   principal: Principal;
   task: TaskContract;
+  /** Capabilities granted to this principal at run start (SPEC §8 A5). */
+  capabilities: Capability[];
   seed: number;
   /** artifacts/runs/<run-id>/ */
   artifactsDir: string;
@@ -92,6 +96,29 @@ export class Runtime {
       startedAt: this.startedAt,
     });
     this.emit("TaskCreatedEvent", { task: cfg.task });
+    this.emit("CapabilityChangedEvent", { capabilities: [...cfg.capabilities] });
+  }
+
+  /**
+   * Capability attenuation (SPEC §8 A5): a delegation may only narrow.
+   * Each child capability must be reachable from a current capability by
+   * monotone constraint narrowing. Widening throws — the delegation is
+   * rejected structurally before any action can use it.
+   */
+  attenuateCapabilities(childCapabilities: readonly Capability[]): void {
+    this.assertActive();
+    const current = projectState(this.events).capabilities.capabilities;
+    for (const child of childCapabilities) {
+      const parent = current.find((c) => c.action === child.action);
+      if (!parent || !constraintsNarrow(parent.constraints, child.constraints)) {
+        throw new Error(
+          `capability widening rejected: ${JSON.stringify(child)} is not a narrowing of current capabilities`,
+        );
+      }
+    }
+    this.emit("CapabilityChangedEvent", {
+      capabilities: childCapabilities.map((c) => ({ ...c })),
+    });
   }
 
   get trajectory(): readonly AgentEvent[] {

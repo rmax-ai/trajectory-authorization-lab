@@ -5,5 +5,6 @@ export { buildGraph } from "./graph";
 export { projectState, emptyProjection } from "./state-projection";
 export type { ProjectedState } from "./state-projection";
 export { confLte, joinConf, joinIntegrity, joinLabels, PUBLIC_TRUSTED } from "./lattice";
+export { constraintsNarrow, attenuate } from "./capabilities";
 export { RunArtifacts } from "./artifacts";
 export type { RunMetadata } from "./artifacts";
