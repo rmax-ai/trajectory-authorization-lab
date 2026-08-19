@@ -82,6 +82,7 @@ export const GraphEdgeSemanticsSchema = z.enum([
   "writes_to",
   "authorized_by",
   "delegated_from",
+  "used_in",
 ]);
 
 export const GraphEdgeSchema = z.object({
@@ -89,6 +90,7 @@ export const GraphEdgeSchema = z.object({
   to: z.string(),
   semantics: GraphEdgeSemanticsSchema,
 });
+export type GraphEdge = z.infer<typeof GraphEdgeSchema>;
 
 export const ExecutionGraphSchema = z.object({
   nodes: z.array(GraphNodeSchema),
@@ -174,7 +176,15 @@ export const AgentEventSchema = z.discriminatedUnion("type", [
   z.object({ ...EventBase, type: z.literal("UserRequestEvent"), data: z.object({ request: z.string() }) }),
   z.object({ ...EventBase, type: z.literal("TaskCreatedEvent"), data: z.object({ task: TaskContractSchema }) }),
   z.object({ ...EventBase, type: z.literal("ModelDecisionEvent"), data: z.object({ decision: z.string() }) }),
-  z.object({ ...EventBase, type: z.literal("ToolProposedEvent"), data: z.object({ tool: ToolCallSchema }) }),
+  z.object({
+    ...EventBase,
+    type: z.literal("ToolProposedEvent"),
+    data: z.object({
+      tool: ToolCallSchema,
+      /** Derived value ids consumed by this proposal (SPEC §7 used_in). */
+      uses: z.array(z.string()).optional(),
+    }),
+  }),
   z.object({
     ...EventBase,
     type: z.literal("PolicyEvaluatedEvent"),

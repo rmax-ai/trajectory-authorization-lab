@@ -48,6 +48,8 @@ export interface ProposalOutcome {
   events: AgentEvent[];
   /** The ToolResultEvent id when ALLOWed and executed; undefined otherwise. */
   resultEventId?: string;
+  /** The ToolProposedEvent id (node id for used_in edges). */
+  proposalEventId: string;
 }
 
 export interface DeriveOutcome {
@@ -100,14 +102,21 @@ export class Runtime {
   async propose(
     toolCall: ToolCall,
     causalParents: readonly string[] = [],
+    uses: readonly string[] = [],
   ): Promise<ProposalOutcome> {
     this.assertActive();
     const startIndex = this.events.length;
     const outcome: ProposalOutcome = {
       decision: { outcome: "DENY", reasons: [] },
       events: [],
+      proposalEventId: "",
     };
-    const proposal = this.emit("ToolProposedEvent", { tool: toolCall }, causalParents);
+    const proposal = this.emit(
+      "ToolProposedEvent",
+      { tool: toolCall, uses: uses.length > 0 ? [...uses] : undefined },
+      causalParents,
+    );
+    outcome.proposalEventId = proposal.id;
 
     const ctx = buildAuthorizationContext({
       principal: this.cfg.principal,
