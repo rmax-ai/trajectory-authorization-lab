@@ -7,6 +7,7 @@ import type { AuthorizationPolicy } from "@tacl/core";
 import { createA0Policy, type AclConfig } from "./a0-tool-acl";
 import { createA1Policy, type AbacConfig } from "./a1-abac";
 import { createA2Policy, type A2Config } from "./a2-task";
+import { createA3Policy, type A3Config } from "./a3-trajectory";
 
 export const POLICY_ORDER = ["a0", "a1", "a2", "a3", "a4", "a5"] as const;
 export type PolicyId = (typeof POLICY_ORDER)[number];
@@ -20,6 +21,7 @@ export function createPolicy(id: PolicyId): AuthorizationPolicy {
     case "a2":
       return createA2Policy();
     case "a3":
+      return createA3Policy();
     case "a4":
     case "a5":
       throw new Error(`policy ${id} not implemented yet`);
@@ -32,3 +34,5 @@ export { createA1Policy, DEFAULT_ABAC } from "./a1-abac";
 export type { AbacConfig } from "./a1-abac";
 export { createA2Policy, DEFAULT_A2 } from "./a2-task";
 export type { A2Config } from "./a2-task";
+export { createA3Policy } from "./a3-trajectory";
+export type { A3Config } from "./a3-trajectory";

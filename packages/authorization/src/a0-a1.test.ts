@@ -121,7 +121,7 @@ describe("registry", () => {
   });
 
   it("fails loudly for not-yet-implemented rungs", () => {
-    expect(() => createPolicy("a3")).toThrow(/not implemented/);
+    expect(() => createPolicy("a4")).toThrow(/not implemented/);
   });
 
   it("is pure: repeated authorizations give identical decisions", () => {

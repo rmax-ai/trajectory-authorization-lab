@@ -6,3 +6,5 @@ export { createA1Policy, DEFAULT_ABAC } from "./a1-abac";
 export type { AbacConfig } from "./a1-abac";
 export { createA2Policy, DEFAULT_A2 } from "./a2-task";
 export type { A2Config } from "./a2-task";
+export { createA3Policy } from "./a3-trajectory";
+export type { A3Config } from "./a3-trajectory";
