@@ -20,7 +20,7 @@ import {
   type TaskContract,
   type ToolCall,
 } from "../schemas";
-import { createEventFactory, type Clock, type EventFactory } from "../events/event-log";
+import { createEventFactory, deepFreeze, type Clock, type EventFactory } from "../events/event-log";
 import { getTool } from "../tools/registry";
 import type { ToolEnv, ToolResult } from "../tools/types";
 import { buildAuthorizationContext } from "./context";
@@ -70,7 +70,14 @@ export class Runtime {
   private readonly startedAt: string;
 
   constructor(cfg: RunConfig, policy: AuthorizationPolicy, clock: Clock) {
-    this.cfg = cfg;
+    // SPEC §8 A2: task contracts are immutable during a run. Structural
+    // enforcement: deep-freeze — mutation attempts throw in ESM strict mode.
+    // The agent cannot modify its own task contract.
+    this.cfg = {
+      ...cfg,
+      principal: deepFreeze(cfg.principal),
+      task: deepFreeze(cfg.task),
+    };
     this.policy = policy;
     this.startedAt = clock.now();
     this.factory = createEventFactory(cfg.id, clock);

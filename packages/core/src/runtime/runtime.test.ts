@@ -179,6 +179,23 @@ describe("derivation and labels (SPEC §10, §8 A4)", () => {
   });
 });
 
+describe("task contract immutability (SPEC §8 A2)", () => {
+  it("runtime deep-freezes the task — mutation throws structurally", async () => {
+    const cfg = makeCfg();
+    const rt = new Runtime(cfg, allowPolicy(), fixedClock);
+    expect(Object.isFrozen(rt.cfg.task)).toBe(true);
+    expect(() => {
+      (rt.cfg.task as { purpose: string }).purpose = "MALICIOUS_PIVOT";
+    }).toThrow();
+    // And the agent cannot reach a mutable copy through the context either:
+    await rt.propose(readCall);
+    const ctxSeen = rt.trajectory[0]!.data;
+    // (TaskCreatedEvent carried the frozen task)
+    expect(Object.isFrozen((rt.trajectory[0]!.data as { task: object }).task)).toBe(true);
+    void ctxSeen;
+  });
+});
+
 describe("persistence and determinism (SPEC §6, §19)", () => {
   it("writes the full artifact layout; graph reconstructs from events.jsonl", async () => {
     const cfg = makeCfg();

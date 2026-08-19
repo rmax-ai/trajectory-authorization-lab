@@ -51,7 +51,7 @@ export function createEventFactory(runId: string, clock: Clock): EventFactory {
   return factory;
 }
 
-function deepFreeze<T>(value: T): T {
+export function deepFreeze<T>(value: T): T {
   if (value !== null && typeof value === "object") {
     Object.freeze(value);
     for (const key of Object.getOwnPropertyNames(value)) {
