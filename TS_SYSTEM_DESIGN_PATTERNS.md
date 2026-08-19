@@ -103,8 +103,9 @@ Scenarios are data: `steps[]` with `tool` | `derive` | `approve` step types. The
 
 - Every event → node (type = event type).
 - `causalParents` → `caused_by` edges.
-- `derive` step → `derived_from` edges to source result nodes.
-- Tool read/write of fixture entities → `read_from` / `writes_to` edges (fixture entity ids).
-- `PolicyEvaluatedEvent` → `authorized_by` edge from the execution event; delegation steps → `delegated_from`.
+- Derivation records (`LabelUpdatedEvent` with 2+ parents) → `derived_from` edges to source result nodes.
+- `ToolProposedEvent.data.uses` → `used_in` edges (derived value → consuming proposal).
+- `PolicyEvaluatedEvent` that authorized an execution → `authorized_by` edge (decision → execution).
+- Reserved, not yet modeled: `read_from`, `writes_to`, `delegated_from` (need fixture-entity and delegation node modeling).
 
 Unit test: `buildGraph(parseEvents(jsonl))` deep-equals `graph.json` written during the run.

@@ -71,7 +71,7 @@ This project does **not** claim to solve:
 
 ## Status
 
-Companion artifact for the article *From Tool Authorization to Computation Authorization*. Research harness, not a production platform — inspectability, determinism, and a small code surface over feature breadth.
+All six policies, six scenario pairs, the e2e matrix, the experiment CLI, and the inspection UI ship and pass `pnpm test` (200+ tests). Measured findings: `docs/findings.md`. Companion artifact for the article *From Tool Authorization to Computation Authorization*. Research harness, not a production platform — inspectability, determinism, and a small code surface over feature breadth.
 
 ## License
 

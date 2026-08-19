@@ -50,6 +50,9 @@ importers:
 
   packages/authorization:
     dependencies:
+      '@tacl/core':
+        specifier: workspace:*
+        version: link:../core
       zod:
         specifier: ^3.25.0
         version: 3.25.76
@@ -62,6 +65,15 @@ importers:
 
   packages/experiments:
     dependencies:
+      '@tacl/authorization':
+        specifier: workspace:*
+        version: link:../authorization
+      '@tacl/core':
+        specifier: workspace:*
+        version: link:../core
+      '@tacl/scenarios':
+        specifier: workspace:*
+        version: link:../scenarios
       tsx:
         specifier: ^4.19.0
         version: 4.23.12
@@ -71,9 +83,16 @@ importers:
 
   packages/scenarios:
     dependencies:
+      '@tacl/core':
+        specifier: workspace:*
+        version: link:../core
       zod:
         specifier: ^3.25.0
         version: 3.25.76
+    devDependencies:
+      '@tacl/authorization':
+        specifier: workspace:*
+        version: link:../authorization
 
 packages:
 

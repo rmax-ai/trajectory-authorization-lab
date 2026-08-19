@@ -2,30 +2,31 @@
 
 > Delivery view. Implementation order (stage-by-stage with tests at each boundary) lives in `docs/roadmap.md` (SPEC §20). This file tracks shipped milestones.
 
-## v0.1.0 — Core harness (stages 1–9)
+## v0.1.0 — Core harness (stages 1–9) ✅
 
-- [ ] Zod schemas + append-only event log (SPEC §4, §6)
-- [ ] Deterministic fixtures: crm, billing; Slack → run artifacts; simulated `python.exec` effects (SPEC §5)
-- [ ] Execution runner + structural reference monitor + run artifact writer (SPEC §18)
-- [ ] A0 Tool ACL
-- [ ] A1 argument ABAC
-- [ ] Task contracts + A2 (immutable)
-- [ ] Trajectory/budget state + A3
-- [ ] Causal graph reconstruction + label lattice + A4
-- [ ] Capability attenuation + runtime-effect layer + A5
+- [x] Zod schemas + append-only event log (SPEC §4, §6)
+- [x] Deterministic fixtures: crm, billing; Slack → run artifacts; simulated `python.exec` effects (SPEC §5)
+- [x] Execution runner + structural reference monitor + run artifact writer (SPEC §18)
+- [x] A0 Tool ACL
+- [x] A1 argument ABAC
+- [x] Task contracts + A2 (immutable, structurally frozen)
+- [x] Trajectory/budget state + A3
+- [x] Causal graph reconstruction + label lattice + A4
+- [x] Capability attenuation + runtime-effect layer + A5
 
 ## v0.2.0 — Evidence + inspection (stages 10–13)
 
-- [ ] Scenario suite S1–S6 × {legitimate, adversarial} with per-level expected outcomes
-- [ ] Metrics + `pnpm experiment report` → `artifacts/reports/latest.{json,md}`
-- [ ] Next.js inspection UI (`/`, `/runs`, `/runs/[id]`, `/scenarios`, `/policies`)
-- [ ] README, docs/extending.md
-- [ ] `docs/findings.md` from measured runs only (SPEC §21)
+- [x] Scenario suite S1–S6 × {legitimate, adversarial} with per-level expected outcomes (e2e matrix green)
+- [x] Metrics + `pnpm experiment report` → `artifacts/reports/latest.{json,md}`
+- [ ] Next.js inspection UI (`/`, `/runs`, `/runs/[id]`, `/scenarios`, `/policies`) — in progress (story 4.11)
+- [x] README, docs/extending.md
+- [x] `docs/findings.md` from measured runs only (SPEC §21)
 
 ## Future (explicitly optional)
 
 - Tiny policy DSL for A3 predicates (SPEC §8)
 - LLM adapter (OpenAI/Anthropic/Gemini/mock) behind the reserved interface (SPEC §3)
+- Policy composition: run A2+A3+A4+A5 as a combined monitor (union would catch 6/6 — see findings.md)
 - Hash-chained artifact integrity
 - Cross-run budget accumulation
 - Interactive HITL for REQUIRE_APPROVAL

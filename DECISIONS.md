@@ -34,6 +34,14 @@ Event `timestamp` is wall-clock metadata (required by SPEC §6). Decision logic 
 
 Runs are reproducible by re-execution (`pnpm experiment run-all`); committing generated outputs invites drift and merge noise. Reports are regenerated from run artifacts. *Rejected:* committing example runs (stale almost immediately during development).
 
+## D9 — Inspection UI is read-only, server-components only
+
+The Next.js app renders artifacts via Node fs in server components: no client-side data fetching, no network calls, no `"use client"` anywhere. It is an inspection lens over the same files the policies produce — not a second source of truth. *Rejected:* client-side fetching (would need a server API layer — pointless indirection for a local tool).
+
+## D10 — CLI without a framework
+
+`pnpm experiment` parses argv with a 20-line loop. *Rejected:* commander/yargs — the CLI has three verbs; a dependency would be bigger than the parser.
+
 ## Known limitations (honest section)
 
 - Artifacts have no hash chaining — append-only is enforced by construction, not cryptographically (docs/threat-model.md, cross-cutting).
