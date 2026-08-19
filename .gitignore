@@ -1,0 +1,20 @@
+node_modules/
+.next/
+dist/
+coverage/
+*.tsbuildinfo
+*.log
+
+# generated experiment artifacts (reproducible via `pnpm experiment run-all`)
+artifacts/runs/
+artifacts/reports/
+
+# local secrets/config
+.env
+.env.*
+!.env.example
+.envrc
+
+# OS/editor
+.DS_Store
+*.swp

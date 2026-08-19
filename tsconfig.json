@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/core" },
+    { "path": "packages/authorization" },
+    { "path": "packages/scenarios" },
+    { "path": "packages/experiments" },
+    { "path": "apps/web" }
+  ]
+}

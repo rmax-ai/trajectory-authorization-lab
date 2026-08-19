@@ -1,0 +1,14 @@
+{
+  "name": "@tacl/authorization",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "a0-a5 policies + registry",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.25.0"
+  }
+}
