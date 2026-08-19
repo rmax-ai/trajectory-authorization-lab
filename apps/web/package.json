@@ -6,8 +6,7 @@
   "description": "Next.js inspection UI",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "typecheck": "tsc --noEmit"
+    "build": "next build"
   },
   "dependencies": {
     "next": "^15.3.0",

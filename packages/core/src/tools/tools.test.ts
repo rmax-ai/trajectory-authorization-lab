@@ -101,14 +101,19 @@ describe("billing.refund", () => {
 describe("slack tools", () => {
   it("persist messages to run artifacts with sink-specific labels", () => {
     const { env, dir } = makeEnv();
-    const internal = slackInternalPostTool.run(env, { text: "hello ops" });
-    const external = slackExternalPostTool.run(env, { text: "hello partners" });
+    const internal = slackInternalPostTool.run(env, { channel: "#internal-ops", text: "hello ops" });
+    const external = slackExternalPostTool.run(env, { channel: "#external-partners", text: "hello partners" });
     expect(internal.labels?.confidentiality).toBe("INTERNAL");
     expect(external.labels?.confidentiality).toBe("PUBLIC");
     const file = join(dir, "artifacts", "slack-messages.jsonl");
     const lines = readFileSync(file, "utf8").trim().split("\n");
     expect(lines).toHaveLength(2);
     expect((JSON.parse(lines[1]!) as { channel: string }).channel).toBe("#external-partners");
+  });
+
+  it("requires a channel argument", () => {
+    const { env } = makeEnv();
+    expect(() => slackInternalPostTool.run(env, { text: "no channel" })).toThrow(/channel/);
   });
 });
 
