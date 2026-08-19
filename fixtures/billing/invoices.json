@@ -1,0 +1,6 @@
+[
+  { "id": "inv-1001", "customerId": "customer-123", "amount": 120.0, "status": "paid", "issuedAt": "2026-07-01T00:00:00.000Z" },
+  { "id": "inv-1002", "customerId": "customer-123", "amount": 340.5, "status": "paid", "issuedAt": "2026-07-15T00:00:00.000Z" },
+  { "id": "inv-2001", "customerId": "customer-456", "amount": 89.99, "status": "paid", "issuedAt": "2026-07-02T00:00:00.000Z" },
+  { "id": "inv-2002", "customerId": "customer-456", "amount": 210.0, "status": "open", "issuedAt": "2026-08-01T00:00:00.000Z" }
+]

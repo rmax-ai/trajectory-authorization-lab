@@ -128,6 +128,16 @@ export const CapabilitySchema = z.object({
 });
 export type Capability = z.infer<typeof CapabilitySchema>;
 
+/**
+ * Modeled runtime effects of the simulated python.exec tool (SPEC §5).
+ * Enforced at the effect layer by A5 (story 4.8) — never actually performed.
+ */
+export const RuntimeEffectSchema = z.object({
+  kind: z.enum(["filesystem.read", "network.connect", "network.post", "environment.read"]),
+  target: z.string(),
+});
+export type RuntimeEffect = z.infer<typeof RuntimeEffectSchema>;
+
 export const CapabilityStateSchema = z.object({
   capabilities: z.array(CapabilitySchema),
 });

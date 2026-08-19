@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "events, graph, runtime, tools",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit"

@@ -1,0 +1,5 @@
+[
+  { "id": "pay-9001", "customerId": "customer-123", "invoiceId": "inv-1001", "amount": 120.0, "method": "card", "at": "2026-07-02T00:00:00.000Z" },
+  { "id": "pay-9002", "customerId": "customer-123", "invoiceId": "inv-1002", "amount": 340.5, "method": "bank_transfer", "at": "2026-07-16T00:00:00.000Z" },
+  { "id": "pay-9003", "customerId": "customer-456", "invoiceId": "inv-2001", "amount": 89.99, "method": "card", "at": "2026-07-03T00:00:00.000Z" }
+]
