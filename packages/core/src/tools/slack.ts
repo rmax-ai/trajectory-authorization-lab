@@ -18,7 +18,6 @@ function makeSlackTool(name: string, channel: string): Tool {
         messageId: `${env.runId}-msg-${env.nextSeq()}`,
         channel,
         text,
-        sentAtRun: env.runId,
       };
       mkdirSync(env.artifactDir, { recursive: true });
       appendFileSync(join(env.artifactDir, "slack-messages.jsonl"), JSON.stringify(message) + "\n");

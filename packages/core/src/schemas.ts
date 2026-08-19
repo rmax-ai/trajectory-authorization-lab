@@ -73,6 +73,7 @@ export const GraphNodeSchema = z.object({
   label: z.string(),
   data: z.unknown(),
 });
+export type GraphNode = z.infer<typeof GraphNodeSchema>;
 
 export const GraphEdgeSemanticsSchema = z.enum([
   "caused_by",
@@ -188,7 +189,11 @@ export const AgentEventSchema = z.discriminatedUnion("type", [
   z.object({
     ...EventBase,
     type: z.literal("ToolResultEvent"),
-    data: z.object({ result: z.unknown(), labels: LabelSchema.optional() }),
+    data: z.object({
+      result: z.unknown(),
+      labels: LabelSchema.optional(),
+      effects: z.array(RuntimeEffectSchema).optional(),
+    }),
   }),
   z.object({
     ...EventBase,
@@ -230,3 +235,15 @@ export const AuthorizationContextSchema = z.object({
   capabilities: CapabilityStateSchema,
 });
 export type AuthorizationContext = z.infer<typeof AuthorizationContextSchema>;
+
+/**
+ * SPEC §4 — the policy contract. Lives in core so @tacl/authorization can
+ * depend on it (dependency direction: core ← authorization).
+ * Pure function of context; may be sync or async.
+ */
+export interface AuthorizationPolicy {
+  readonly id: string;
+  authorize(
+    context: AuthorizationContext,
+  ): PolicyDecision | Promise<PolicyDecision>;
+}

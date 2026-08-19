@@ -23,7 +23,7 @@ export const crmReadTool: Tool = {
     const customer = customers.find((c) => c.id === customerId);
     if (!customer) throw new ToolInputError(`customer ${customerId} not found`);
     return {
-      result: { ...customer, readAtRun: env.runId },
+      result: { ...customer },
       labels: { confidentiality: "CONFIDENTIAL", integrity: "TRUSTED" },
     };
   },
