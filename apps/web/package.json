@@ -9,6 +9,9 @@
     "build": "next build"
   },
   "dependencies": {
+    "@tacl/authorization": "workspace:*",
+    "@tacl/core": "workspace:*",
+    "@tacl/scenarios": "workspace:*",
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
