@@ -1,5 +1,5 @@
-/**
- * @tacl/experiments — runner CLI, metrics, reports.
- * Placeholder — runner lands in story 4.10.
- */
-export {};
+export { runScenario, runAll } from "./runner";
+export type { RunOptions, RunResult } from "./runner";
+export { writeReport, collectRunMetrics } from "./report";
+export { aggregate, median, renderMarkdown } from "./metrics";
+export type { RunMetrics, PolicySummary, Report } from "./metrics";
