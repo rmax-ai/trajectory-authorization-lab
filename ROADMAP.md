@@ -18,7 +18,7 @@
 
 - [x] Scenario suite S1–S6 × {legitimate, adversarial} with per-level expected outcomes (e2e matrix green)
 - [x] Metrics + `pnpm experiment report` → `artifacts/reports/latest.{json,md}`
-- [ ] Next.js inspection UI (`/`, `/runs`, `/runs/[id]`, `/scenarios`, `/policies`) — in progress (story 4.11)
+- [x] Next.js inspection UI (`/`, `/runs`, `/runs/[id]`, `/scenarios`, `/policies`) (story 4.11)
 - [x] README, docs/extending.md
 - [x] `docs/findings.md` from measured runs only (SPEC §21)
 
