@@ -17,6 +17,6 @@
     "@tacl/core": "workspace:*",
     "@tacl/scenarios": "workspace:*",
     "tsx": "^4.19.0",
-    "zod": "^3.25.0"
+    "zod": "^4.6.6"
   }
 }
